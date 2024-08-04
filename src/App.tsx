@@ -3,6 +3,7 @@ import data from "./data/format.json";
 import Card from "./components/Card";
 import { defaultTarjetaData, TarjetaDataType } from "./types/TarjetaDataType";
 import { mezclarArray } from "./helpers/shuffleArray";
+import ResultadosModal from "./components/ResultadosModal";
 
 const App = () => {
   const [cantidadCartas, setCantidadCartas] = useState<number>(
@@ -16,11 +17,15 @@ const App = () => {
     useState<TarjetaDataType>(defaultTarjetaData);
   const [activoSegundo, setActivoSegundo] =
     useState<TarjetaDataType>(defaultTarjetaData);
-
+  const [congelados, setCongelados] = useState<{ [key: number]: boolean }>({});
+  const [movimientos, setMovimientos] = useState<number>(0);
+  const [show, setShow] = useState<boolean>(false);
+  const [reinicio, setReinicio] = useState<boolean>(false);
   const handleTarjetaActivada = (
     data: TarjetaDataType,
     setCongelado: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
+    setMovimientos(movimientos + 1);
     if ((activoPrimero.url === "", activoPrimero.index === null)) {
       setActivoPrimero(data);
       console.log("Primera tarjeta");
@@ -33,7 +38,11 @@ const App = () => {
         if (refs.current[activoPrimero.index]) {
           refs.current[activoPrimero.index](true);
         }
-
+        setCongelados((prev) => ({
+          ...prev,
+          [activoPrimero.index as number]: true,
+          [data.index as number]: true,
+        }));
         limpiarActivos();
       } else {
         setActivoSegundo({
@@ -49,23 +58,50 @@ const App = () => {
     }
   };
 
+  const checkIfAllCardsAreFrozen = () => {
+    return (
+      Object.values(congelados).length === cantidadCartas &&
+      Object.values(congelados).every((v) => v)
+    );
+  };
+
   const limpiarActivos = () => {
     setActivoPrimero(defaultTarjetaData);
     setActivoSegundo(defaultTarjetaData);
   };
 
+  const resetGame = () => {
+    limpiarActivos();
+    setCongelados({});
+    setMovimientos(0);
+    setCantidadCartas(data.dificultad.facil.cantidad);
+    setImagenes([]);
+    refs.current = {};
+    closeModal();
+    setReinicio(true);
+  };
+  const closeModal = () => {
+    setShow(false);
+    console.log("Cierra modal");
+  };
+  useEffect(() => {
+    if (checkIfAllCardsAreFrozen()) {
+      setShow(true);
+    }
+  }, [congelados]);
   useEffect(() => {
     const imagenesContadas: string[] = mezclarArray(data.imagenes)
       .slice(0, cantidadCartas / 2)
       .flatMap((i) => Array(2).fill(i));
 
     setImagenes(mezclarArray(imagenesContadas));
-  }, [cantidadCartas]);
+    setReinicio(false);
+  }, [cantidadCartas, reinicio]);
 
   return (
     <main>
-      <section className="card-group bg-dark vh-100 col-12 d-flex justify-content-center">
-        <ul className="d-flex col-12 md:col-9 flex-wrap  justify-content-center align-items-center ">
+      <section className="card-group bg-dark vh-100 col-12 d-flex justify-content-center align-items-center">
+        <ul className="d-flex flex-wrap  justify-content-center align-items-center bg-primary">
           {imagenes.map((imagen, index) => (
             <Card
               key={index}
@@ -81,6 +117,13 @@ const App = () => {
           ))}
         </ul>
       </section>
+      <ResultadosModal
+        isShow={show}
+        onHide={closeModal}
+        closeModal={closeModal}
+        puntaje={movimientos}
+        reiniciar={resetGame}
+      />
     </main>
   );
 };

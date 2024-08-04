@@ -22,7 +22,7 @@ const Card = ({
   return (
     <li
       key={index}
-      className={`tarjeta cursor-pointer col-2 ${
+      className={`tarjeta cursor-pointer ${
         (elementoActivo.index === index ||
           (activoSegundo?.index === index &&
             activoSegundo.segundaTarjetaActivada) ||
@@ -30,7 +30,7 @@ const Card = ({
         "active"
       } bg-white`}
       onClick={() => {
-        handleClickOnCard();
+        if (!congelado) handleClickOnCard();
       }}
     >
       {/* Este es el contenido {index + 1} */}
