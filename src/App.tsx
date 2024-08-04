@@ -22,7 +22,8 @@ const App = () => {
     useState<TarjetaDataType>(defaultTarjetaData);
   const [congelados, setCongelados] = useState<{ [key: number]: boolean }>({});
   const [movimientos, setMovimientos] = useState<number>(0);
-  const [showResultadosModal, setShowResultadosModal] = useState<boolean>(true);
+  const [showResultadosModal, setShowResultadosModal] =
+    useState<boolean>(false);
   const [showInicioModal, setShowInicioModal] = useState<boolean>(true);
   const [reinicio, setReinicio] = useState<boolean>(false);
   const [segundos, setSegundos] = useState<number>(0);
