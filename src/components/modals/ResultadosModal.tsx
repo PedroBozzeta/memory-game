@@ -12,32 +12,32 @@ const ResultadosModal = (props: ResultadosModalProps) => {
     <Modal
       backdrop="static"
       show={props.isShow}
-      size="sm"
       centered={true}
       className="modal-fade"
     >
-      <Modal.Header className="d-flex justify-content-center">
+      <Modal.Header className="d-flex justify-content-center text-center">
         <h4>Juego Terminado</h4>
       </Modal.Header>
       <Modal.Body>
-        <p>Tu puntaje fue de {props.puntaje}</p>
+        <h3 className="text-center">
+          Tu puntaje fue de{" "}
+          <span className="fw-bold">
+            {" "}
+            {props.puntaje > 0 ? props.puntaje : "00"}
+          </span>
+        </h3>
       </Modal.Body>
-      <Modal.Footer>
+
+      <Modal.Footer className="d-flex justify-content-around">
         <Button
+          variant="dark"
           onClick={() => {
             props.reiniciar();
             console.log("Button");
           }}
+          size="lg"
         >
           Reiniciar
-        </Button>
-        <Button
-          onClick={() => {
-            props.closeModal();
-            console.log("Button");
-          }}
-        >
-          Cerrar
         </Button>
       </Modal.Footer>
     </Modal>

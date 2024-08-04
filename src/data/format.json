@@ -1,13 +1,19 @@
 {
   "dificultad": {
     "facil": {
-      "cantidad": 12
+      "nombre": "facil",
+      "cantidad": 12,
+      "tiempoMax": 15
     },
     "normal": {
-      "cantidad": 16
+      "nombre": "normal",
+      "cantidad": 16,
+      "tiempoMax": 20
     },
     "dificil": {
-      "cantidad": 20
+      "nombre": "dificil",
+      "cantidad": 20,
+      "tiempoMax": 30
     }
   },
   "imagenes": [

@@ -22,7 +22,7 @@ const Card = ({
   return (
     <li
       key={index}
-      className={`tarjeta cursor-pointer ${
+      className={`tarjeta cursor-pointer col-2 ${
         (elementoActivo.index === index ||
           (activoSegundo?.index === index &&
             activoSegundo.segundaTarjetaActivada) ||
@@ -35,10 +35,10 @@ const Card = ({
     >
       {/* Este es el contenido {index + 1} */}
       <div className={`front`}>
-        <img src="/img/logo.png" />
+        <img className="img-tarjeta" src="/img/logo.png" />
       </div>
       <div className="back">
-        <img src={url} />
+        <img className="img-tarjeta" src={url} />
       </div>
     </li>
   );
