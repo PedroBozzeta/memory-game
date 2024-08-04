@@ -1,0 +1,29 @@
+{
+  "dificultad": {
+    "facil": {
+      "cantidad": 12
+    },
+    "normal": {
+      "cantidad": 16
+    },
+    "dificil": {
+      "cantidad": 20
+    }
+  },
+  "imagenes": [
+    "/img/bootstrap.png",
+    "/img/css.png",
+    "/img/html-5.png",
+    "/img/js.png",
+    "/img/laravel.png",
+    "/img/mysql.png",
+    "/img/node.png",
+    "/img/php.png",
+    "/img/react.png",
+    "/img/redux.png",
+    "/img/sanity.png",
+    "/img/sql.png",
+    "/img/tailwind.png",
+    "/img/vue.png"
+  ]
+}
