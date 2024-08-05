@@ -1,99 +1,4 @@
-/* :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #3178c6aa);
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
 *{
   margin:0;
   box-sizing: border-box;
@@ -103,32 +8,28 @@ button:focus-visible {
   max-height: 120px;
   position: fixed;
   z-index: 10;
+  padding: 10px;
 }
 *{
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-body{
-  background-color:black
-}
-li{
-  list-style-type: none;
-}
+
 .tarjeta{
   cursor: pointer;
   position: relative;
   width: 150px;
   height: 200px;
   transition: 0.6s;
-  border: 2px solid red;
-  transform-style: preserve-3d;border-radius: 20px;
+  transform-style: preserve-3d;
+  border-radius: 20px;
   margin: 5px;
+  border: 2px groove black;
 }
 .front{
   position: absolute;
   top: 0;
   left: 0;
-  background-color: white;
   width: 100%;
   height: 100%;
   display: flex;
@@ -145,10 +46,11 @@ li{
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: white;
   transform: rotateY(180deg);display: flex;
-    align-items: center;
-    justify-content: center;backface-visibility: hidden;border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  border-radius: 20px;
 }
 .tarjeta.active{
   transform: perspective(300px) rotateY(180deg);
@@ -157,8 +59,6 @@ li{
   width: 80%;
   height: 90%;
   object-fit: contain;
-
-    
 }
 
 .img-inicio-logo{
@@ -172,72 +72,33 @@ li{
 .sombra{
 box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
+.congelado{
+border: 3px groove orangered;
+}
+.bg-degradado-azul{
+background: linear-gradient(90deg, rgba(255, 152, 0, 1) 0%, rgba(3, 169, 244, 1) 100%);
+}
+.bg-degradado-naranja{
+background: linear-gradient(90deg, rgba(255, 123, 0, 1) 0%, rgba(255, 108, 0, 1) 100%);
+}
 @media (max-width: 768px) {
   .tarjeta{
     width: 120px;
     height: 120px;
   }
   .nav-button {
-      font-size: 8px;
+      font-size: 12px;
+      padding: 10px;
       margin: 5px;
     }
     .contenedor{
-     padding-top: 100px;
+     padding-top: 50px;
+      margin: 0;
     }
+        .img-tarjeta {
+          width: 80%;
+          height: 90%;
+          object-fit: contain;
+        }
 }
 
-
-/* .flip-vertical-right {
-  -webkit-animation: flip-vertical-right .4s cubic-bezier(.455, .03, .515, .955) both;
-  animation: flip-vertical-right .4s cubic-bezier(.455, .03, .515, .955) both
-}
-@-webkit-keyframes flip-vertical-right {
-  0% {
-    -webkit-transform: rotateY(0);
-    transform: rotateY(0)
-  }
-
-  100% {
-    -webkit-transform: rotateY(180deg);
-    transform: rotateY(180deg)
-  }
-}
-
-@keyframes flip-vertical-right {
-  0% {
-    -webkit-transform: rotateY(0);
-    transform: rotateY(0)
-  }
-
-  100% {
-    -webkit-transform: rotateY(180deg);
-    transform: rotateY(180deg)
-  }
-}
-.flip-vertical-left {
-  -webkit-animation: flip-vertical-left .4s cubic-bezier(.455, .03, .515, .955) both;
-  animation: flip-vertical-left .4s cubic-bezier(.455, .03, .515, .955) both
-}
-@-webkit-keyframes flip-vertical-left {
-  0% {
-    -webkit-transform: rotateY(0);
-    transform: rotateY(0)
-  }
-
-  100% {
-    -webkit-transform: rotateY(-180deg);
-    transform: rotateY(-180deg)
-  }
-}
-
-@keyframes flip-vertical-left {
-  0% {
-    -webkit-transform: rotateY(0);
-    transform: rotateY(0)
-  }
-
-  100% {
-    -webkit-transform: rotateY(-180deg);
-    transform: rotateY(-180deg)
-  }
-} */

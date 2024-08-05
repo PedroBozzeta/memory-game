@@ -15,12 +15,14 @@ const InicioModal = (props: ResultadosModalProps) => {
       className="modal-fade sombra"
     >
       <Modal.Header className="d-flex justify-content-center bg-info">
-        <img className="img-inicio-logo" src="/logo2.png" alt="logo" />
+        <img className="img-inicio-logo" src="/logo.png" alt="logo" />
       </Modal.Header>
-      <Modal.Body className="">
-        <h4 className="text-center">Seleccione una dificultad</h4>
+      <Modal.Body className="align-middle text-center bg-dark">
+        <span className="text-center fs-4 fw-bold text-white">
+          SELECCIONE LA DIFICULTAD
+        </span>
       </Modal.Body>
-      <Modal.Footer className="d-flex justify-content-around">
+      <Modal.Footer className="d-flex justify-content-around bg-dark-emphasis">
         <Button
           variant="dark"
           onClick={() => props.setDificultad(data.dificultad.facil)}

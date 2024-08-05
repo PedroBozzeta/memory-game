@@ -1,7 +1,9 @@
 {
   "name": "memory-game",
+  "author": "Pedro Jesus Bozzeta Reyes",
+  "description": "A memory game as a parte of my portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

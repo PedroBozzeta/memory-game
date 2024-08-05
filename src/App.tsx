@@ -5,7 +5,11 @@ import { defaultTarjetaData, TarjetaDataType } from "./types/TarjetaDataType";
 import { mezclarArray } from "./helpers/shuffleArray";
 import ResultadosModal from "./components/modals/ResultadosModal";
 import InicioModal from "./components/modals/InicioModal";
-import { formatearCronometro } from "./helpers/cronometroHelper";
+import {
+  formatearCronometro,
+  handleCronometro,
+  reiniciarCronómetro,
+} from "./helpers/cronometroHelper";
 import { defaultDificultad, DificultadType } from "./types/DificultadType";
 import { Button } from "react-bootstrap";
 const App = () => {
@@ -29,27 +33,16 @@ const App = () => {
   const [segundos, setSegundos] = useState<number>(0);
   const [minutos, setMinutos] = useState<number>(0);
   const [puntaje, setPuntaje] = useState<number>(0);
-
-  const handleCronometro = () => {
-    if (cantidadCartas !== 0) {
-      if (segundos == 59) {
-        setSegundos(0);
-        setMinutos(minutos + 1);
-      } else {
-        setSegundos(segundos + 1);
-      }
-    }
-  };
+  const [finalizado, setFinalizado] = useState<boolean>(false);
 
   const handleTarjetaActivada = (
     data: TarjetaDataType,
     setCongelado: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     setMovimientos(movimientos + 1);
+
     if ((activoPrimero.url === "", activoPrimero.index === null)) {
       setActivoPrimero(data);
-      console.log("Primera tarjeta");
-      console.log(data.index);
     } else {
       if (activoPrimero.index === data.index) {
         setActivoPrimero(defaultTarjetaData);
@@ -69,8 +62,6 @@ const App = () => {
           ...data,
           segundaTarjetaActivada: true,
         });
-        console.log("Segunda tarjeta");
-        console.log(data.index);
         setTimeout(() => {
           limpiarActivos();
         }, 600);
@@ -79,10 +70,13 @@ const App = () => {
   };
 
   const checkIfAllCardsAreFrozen = () => {
-    return (
+    if (
       Object.values(congelados).length === cantidadCartas &&
+      cantidadCartas !== 0 &&
       Object.values(congelados).every((v) => v)
-    );
+    ) {
+      setFinalizado(true);
+    }
   };
 
   const limpiarActivos = () => {
@@ -101,14 +95,14 @@ const App = () => {
     setMovimientos(0);
     setPuntaje(0);
     setImagenes([]);
-    setSegundos(0);
-    setMinutos(0);
     refs.current = {};
     closeModal();
     setCantidadCartas(defaultDificultad.cantidad);
     setDificultad(defaultDificultad);
     setShowInicioModal(true);
     setReinicio(true);
+    reiniciarCronómetro(setSegundos, setMinutos);
+    setFinalizado(false);
   };
 
   const calcularPuntaje = () => {
@@ -118,22 +112,31 @@ const App = () => {
   };
   const closeModal = () => {
     setShowResultadosModal(false);
-    console.log("Cierra modal");
   };
+
+  //Contador de cronómetro
   useEffect(() => {
-    if (cantidadCartas !== 0 && !checkIfAllCardsAreFrozen()) {
-      setTimeout(handleCronometro, 1000);
+    if (cantidadCartas !== 0 && !finalizado) {
+      setTimeout(
+        () => handleCronometro(segundos, setSegundos, minutos, setMinutos),
+        1000
+      );
     }
   }, [cantidadCartas, segundos]);
 
+  //Verificar si todas las cartas fueron activadas
   useEffect(() => {
-    if (cantidadCartas !== 0 && checkIfAllCardsAreFrozen()) {
+    if (cantidadCartas !== 0 && finalizado) {
       calcularPuntaje();
       setShowResultadosModal(true);
-      console.log("todos congelados");
     }
+  }, [finalizado]);
+
+  useEffect(() => {
+    checkIfAllCardsAreFrozen();
   }, [congelados]);
 
+  //Manejar inicio y reinicio de aplicación
   useEffect(() => {
     if (cantidadCartas !== 0) {
       const imagenesContadas: string[] = mezclarArray(data.imagenes)
@@ -141,31 +144,28 @@ const App = () => {
         .flatMap((i) => Array(2).fill(i));
 
       setImagenes(mezclarArray(imagenesContadas));
+      reiniciarCronómetro(setSegundos, setMinutos);
       setReinicio(false);
-      setSegundos(0);
-      setMinutos(0);
     }
   }, [cantidadCartas, reinicio]);
 
   return (
     <main>
-      <section className="card-group bg-dark col-12 d-flex justify-content-center sm:align-items-center min-vh-100">
+      <section className="col-12 d-flex justify-content-center sm:align-items-center min-vh-100 bg-degradado-azul">
         {cantidadCartas !== 0 && (
-          <div
-            className="d-flex justify-content-around align-items-center col-12 bg-black rounded p-2 nav"
-            // style={{ height: "50px" }}
-          >
-            <Button className="nav-button" disabled variant="dark">
+          <div className="d-flex justify-content-around align-items-center col-12 bg-black nav">
+            <span className="nav-button col-3 bg-dark rounded text-white text-center">
               Tiempo: {formatearCronometro(minutos)}:
               {formatearCronometro(segundos)}
-            </Button>
-            <Button className="nav-button" disabled variant="dark">
+            </span>
+            <span className="nav-button col-3 bg-dark rounded text-white text-center">
               Dificultad: {dificultad.nombre.toUpperCase()}
-            </Button>
+            </span>
 
             <Button
-              className="nav-button"
+              className="nav-button col-3"
               variant="outline-light"
+              size="sm"
               onClick={() => resetGame()}
             >
               Reiniciar
@@ -173,7 +173,7 @@ const App = () => {
           </div>
         )}
 
-        <ul className="d-flex col-md-9 col-12 justify-content-center align-items-center flex-wrap contenedor mt-5">
+        <div className="d-flex justify-content-center align-items-center flex-wrap col-md-9 col-12   rounded contenedor mt-5">
           {imagenes.map((imagen, index) => (
             <Card
               key={index}
@@ -187,7 +187,7 @@ const App = () => {
               }}
             />
           ))}
-        </ul>
+        </div>
       </section>
       <ResultadosModal
         isShow={showResultadosModal}
@@ -195,6 +195,9 @@ const App = () => {
         closeModal={closeModal}
         puntaje={puntaje}
         reiniciar={resetGame}
+        movimientos={movimientos}
+        segundos={segundos}
+        minutos={minutos}
       />
       <InicioModal
         isShow={showInicioModal}
