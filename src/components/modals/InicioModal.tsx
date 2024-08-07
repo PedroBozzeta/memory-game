@@ -14,37 +14,39 @@ const InicioModal = (props: ResultadosModalProps) => {
       centered={true}
       className="modal-fade sombra"
     >
-      <Modal.Header className="d-flex justify-content-center bg-info">
-        <img className="img-inicio-logo" src="/logo.png" alt="logo" />
-      </Modal.Header>
-      <Modal.Body className="align-middle text-center bg-dark">
-        <span className="text-center fs-4 fw-bold text-white">
-          SELECCIONE LA DIFICULTAD
-        </span>
-      </Modal.Body>
-      <Modal.Footer className="d-flex justify-content-around bg-dark-emphasis">
-        <Button
-          variant="dark"
-          onClick={() => props.setDificultad(data.dificultad.facil)}
-          size="lg"
-        >
-          Fácil
-        </Button>
-        <Button
-          variant="dark"
-          onClick={() => props.setDificultad(data.dificultad.normal)}
-          size="lg"
-        >
-          Normal
-        </Button>
-        <Button
-          variant="dark"
-          onClick={() => props.setDificultad(data.dificultad.dificil)}
-          size="lg"
-        >
-          Dificil
-        </Button>
-      </Modal.Footer>
+      <div className="sombra-interna rounded">
+        <Modal.Header className="d-flex justify-content-center ">
+          <img className="img-inicio-logo" src="/logo.png" alt="logo" />
+        </Modal.Header>
+        <Modal.Body className="align-middle text-center bg-dark">
+          <span className="text-center fs-4 fw-bold text-white">
+            SELECCIONE LA DIFICULTAD
+          </span>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-around bg-dark-emphasis">
+          <Button
+            variant="dark"
+            onClick={() => props.setDificultad(data.dificultad.facil)}
+            size="lg"
+          >
+            Fácil
+          </Button>
+          <Button
+            variant="dark"
+            onClick={() => props.setDificultad(data.dificultad.normal)}
+            size="lg"
+          >
+            Normal
+          </Button>
+          <Button
+            variant="dark"
+            onClick={() => props.setDificultad(data.dificultad.dificil)}
+            size="lg"
+          >
+            Dificil
+          </Button>
+        </Modal.Footer>
+      </div>
     </Modal>
   );
 };

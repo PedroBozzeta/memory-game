@@ -37,7 +37,7 @@ const Card = ({
       <div className={`front`}>
         <img className="img-tarjeta" src="/logo.png" />
       </div>
-      <div className="back">
+      <div className="back ">
         <img className="img-tarjeta" src={url} />
       </div>
     </div>

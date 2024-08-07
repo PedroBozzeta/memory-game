@@ -76,6 +76,8 @@ const App = () => {
       Object.values(congelados).every((v) => v)
     ) {
       setFinalizado(true);
+      calcularPuntaje();
+      setShowResultadosModal(true);
     }
   };
 
@@ -114,23 +116,30 @@ const App = () => {
     setShowResultadosModal(false);
   };
 
-  //Contador de cronómetro
+  // Contador de cronómetro
   useEffect(() => {
+    let intervaloRef: NodeJS.Timeout | null = null;
     if (cantidadCartas !== 0 && !finalizado) {
-      setTimeout(
-        () => handleCronometro(segundos, setSegundos, minutos, setMinutos),
-        1000
-      );
+      if (intervaloRef) clearInterval(intervaloRef);
+      intervaloRef = setInterval(() => {
+        handleCronometro(segundos, setSegundos, minutos, setMinutos);
+      }, 100);
+    } else if (finalizado && intervaloRef) {
+      clearInterval(intervaloRef);
     }
-  }, [cantidadCartas, segundos]);
+
+    return () => {
+      if (intervaloRef) clearInterval(intervaloRef);
+    };
+  }, [cantidadCartas, finalizado, segundos]);
 
   //Verificar si todas las cartas fueron activadas
-  useEffect(() => {
-    if (cantidadCartas !== 0 && finalizado) {
-      calcularPuntaje();
-      setShowResultadosModal(true);
-    }
-  }, [finalizado]);
+  // useEffect(() => {
+  //   if (cantidadCartas !== 0 && finalizado) {
+  //     calcularPuntaje();
+  //     setShowResultadosModal(true);
+  //   }
+  // }, [finalizado]);
 
   useEffect(() => {
     checkIfAllCardsAreFrozen();
@@ -154,16 +163,16 @@ const App = () => {
       <section className="col-12 d-flex justify-content-center sm:align-items-center min-vh-100 bg-degradado-azul">
         {cantidadCartas !== 0 && (
           <div className="d-flex justify-content-around align-items-center col-12 bg-black nav">
-            <span className="nav-button col-3 bg-dark rounded text-white text-center">
+            <span className="nav-button col-3 bg-dark rounded text-white text-center texto-espaciado">
               Tiempo: {formatearCronometro(minutos)}:
               {formatearCronometro(segundos)}
             </span>
-            <span className="nav-button col-3 bg-dark rounded text-white text-center">
+            <span className="nav-button col-3 bg-dark rounded text-white text-center texto-espaciado">
               Dificultad: {dificultad.nombre.toUpperCase()}
             </span>
 
             <Button
-              className="nav-button col-3"
+              className="nav-button col-3 texto-espaciado"
               variant="outline-light"
               size="sm"
               onClick={() => resetGame()}
