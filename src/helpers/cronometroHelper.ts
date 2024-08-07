@@ -17,6 +17,6 @@ export const handleCronometro = (segundos: number, setSegundos: React.Dispatch<R
 
 
 export const reiniciarCronómetro = (setSegundos: React.Dispatch<React.SetStateAction<number>>, setMinutos: React.Dispatch<React.SetStateAction<number>>) => {
-  setSegundos(55);
+  setSegundos(0);
   setMinutos(0);
 };

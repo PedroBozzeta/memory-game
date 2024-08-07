@@ -123,7 +123,7 @@ const App = () => {
       if (intervaloRef) clearInterval(intervaloRef);
       intervaloRef = setInterval(() => {
         handleCronometro(segundos, setSegundos, minutos, setMinutos);
-      }, 100);
+      }, 1000);
     } else if (finalizado && intervaloRef) {
       clearInterval(intervaloRef);
     }
