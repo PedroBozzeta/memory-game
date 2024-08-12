@@ -8,3 +8,10 @@ Juego de memoria donde debes conseguir todos los pares de cartas en el menor tie
 -React.js
 -Typescript
 -Bootstrap
+
+## Para iniciar el proyecto
+
+Ejecutar en la raiz del proyecto:
+
+1. npm i
+2. nom run dev
